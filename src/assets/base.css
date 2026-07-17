@@ -1,0 +1,30 @@
+/* color palette from <https://github.com/vuejs/theme> */
+@font-face {
+  font-family: "Iran Sans";
+  font-weight: 300;
+  src: url("@/assets/fonts/iran-sans/light/iran-sans-light.eot");
+  src: url("@/assets/fonts/iran-sans/light/iran-sans-light.eot#iefix")
+      format("embedded-opentype"),
+    /* IE6-8 */ url("@/assets/fonts/iran-sans/light/iran-sans-light.woff2")
+      format("woff2"),
+    /* FF39+,Chrome36+, Opera24+*/
+      url("@/assets/fonts/iran-sans/light/iran-sans-light.woff") format("woff"),
+    /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+      url("@/assets/fonts/iran-sans/light/iran-sans-light.ttf")
+      format("truetype");
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+}
+
+body {
+  font-family: "Iran Sans", sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
