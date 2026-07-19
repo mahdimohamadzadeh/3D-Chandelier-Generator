@@ -5,6 +5,7 @@ import { useLoadingStore } from "@/stores/loading";
 import { useProductStore } from "@/stores/products";
 import type { GlbFile } from "@/stores/products";
 import type { Scene } from "three";
+import { gltfLoader } from "./loaderSingleton";
 
 export const useLoader = (
   glbFile: GlbFile,
@@ -20,27 +21,25 @@ export const useLoader = (
   }
 
   const object = new Object3D();
-  const loader = new GLTFLoader(loadingManager);
-
-  const dracoLoader = new DRACOLoader();
-  dracoLoader.setDecoderConfig({ type: "js" });
-  dracoLoader.setDecoderPath("https://www.gstatic.com/draco/v1/decoders/");
-  loader.setDRACOLoader(dracoLoader);
-
-  if (glbFile) {
-    loadingStore.loading = true;
-    loadingStore.isDownload = false;
-
-    loader.load(glbFile.url, (gltf: { scene: import("three").Group }) => {
-      loadingStore.loading = false;
-      const model = gltf.scene;
-      object.add(model.clone());
-      object.scale.set(55, 55, 55);
-      object.position.setY(-50);
-      store.addModel(object, glbFile);
-      loadingStore.isDownload = true;
-    });
-  }
+  gltfLoader.manager = loadingManager
+  gltfLoader.load(
+    glbFile.url,
+    (gltf) => {
+      const model = gltf.scene
+      object.add(model.clone())
+      object.scale.set(55, 55, 55)
+      object.position.setY(-50)
+      store.addModel(object, glbFile)
+      loadingStore.loading = false
+      loadingStore.isDownload = true
+    },
+    undefined,
+    (error) => {
+      console.error('GLB load error:', error)
+      loadingStore.loading = false
+      loadingStore.isModelLoading = false
+    }
+  )
 
   return { loadingManager };
 };

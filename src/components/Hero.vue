@@ -3,10 +3,8 @@
 
     <!-- slide-in side panel -->
     <transition name="panel">
-      <aside
-        v-show="loadingStore.isMenu"
-        class="fixed bottom-0 left-0 z-40 flex flex-col overflow-hidden bg-white shadow-2xl top-16 w-80"
-      >
+      <aside v-if="!isHeroDesktop && !isHeroMobile" v-show="loadingStore.isMenu"
+        class="fixed bottom-0 left-0 z-40 flex flex-col overflow-hidden bg-white shadow-2xl top-16 w-80">
         <!-- panel header -->
         <div class="flex items-center justify-between px-4 py-4 border-b border-zinc-100 bg-zinc-50">
           <h2 class="text-base font-bold text-zinc-800">Configure Chandelier</h2>

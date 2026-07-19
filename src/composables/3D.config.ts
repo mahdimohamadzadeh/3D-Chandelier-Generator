@@ -10,16 +10,23 @@ import { unref } from "vue";
 import type { Ref } from "vue";
 
 export interface ThreeJSContext {
-  scene: Scene;
-  renderer: WebGLRenderer;
-  camera: PerspectiveCamera;
+  scene: Scene
+  renderer: WebGLRenderer
+  camera: PerspectiveCamera
 }
 
+let animationId: number | null = null
 export const useThreeJS = (
   element: HTMLElement | Ref<HTMLElement | undefined>,
   width: number,
   height: number
 ): ThreeJSContext => {
+
+  if (animationId !== null) {
+    cancelAnimationFrame(animationId)
+    animationId = null
+  }
+
   const scene = new Scene();
   const camera = new PerspectiveCamera(75, width / height, 0.1, 1000);
   camera.position.set(0, 0, 50);
@@ -45,7 +52,6 @@ export const useThreeJS = (
 
   const el = unref(element);
   if (el) {
-    // remove any existing canvas to prevent duplicate scenes
     while (el.firstChild) el.removeChild(el.firstChild);
     renderer.domElement.style.width = "100%";
     renderer.domElement.style.height = "100%";
@@ -53,12 +59,14 @@ export const useThreeJS = (
     el.appendChild(renderer.domElement);
   }
 
-  const animate = () => {
-    renderer.render(scene, camera);
-    controls.update();
-    requestAnimationFrame(animate);
-  };
-  animate();
 
-  return { scene, renderer, camera };
+  const animate = () => {
+    renderer.render(scene, camera)
+    controls.update()
+    animationId = requestAnimationFrame(animate)
+  }
+
+  animate()
+
+  return { scene, renderer, camera }
 };

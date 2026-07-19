@@ -55,9 +55,8 @@
 </template>
 
 <script setup lang="ts">
-import { useThreeJS } from "@/composables/3D/3D.config";
-import { useAddModel } from "@/composables/3D/addModel";
-import { useRemoveModel } from "@/composables/3D/removeModel";
+import { useAddModel } from "@/composables/addModel";
+import { useRemoveModel } from "@/composables/removeModel";
 import { getCategoryIndex } from "@/helpers/getCategoryIndex";
 import { useWindowSize } from "@vueuse/core";
 import { inject, ref, unref } from "vue";
@@ -65,9 +64,10 @@ import { useLoadingStore } from "@/stores/loading";
 import { useModelStore } from "@/stores/models3D";
 import { useProductStore } from "@/stores/products";
 import { storeToRefs } from "pinia";
-import { useLoader } from "@/composables/3D/useLoader";
+import { useLoader } from "@/composables/useLoader";
 import { SetNumberOfProduct } from "@/helpers/setNumberOfProduct";
 import type { Scene } from "three";
+import { getOrCreateScene } from "@/composables/sceneSingleton";
 
 const { width, height } = useWindowSize();
 const setWidth = (w: number) => (w > 780 ? w / 1.2 : w);
@@ -82,22 +82,26 @@ const loadingStore = useLoadingStore();
 const activeIndex = ref(-1);
 const { getProductByCategory } = storeToRefs(store);
 
+
+
 const ARMS_CATEGORY_ID = 168
 const SOCKET_CATEGORY_ID = 170
 const BULB_CATEGORY_ID = 169
 
 const onCategory = (categoryID: number, index: number) => {
+  const el = unref(container) as HTMLElement | null
   if (isSceneCreated.value === 0) {
-    const { scene } = useThreeJS(
-      unref(container) as HTMLElement,
-      setWidth(width.value),
-      setHeight(height.value)
-    );
-    sceneModel.value = scene;
-    isSceneCreated.value++;
+    if (!el) {
+      console.warn('Container not ready yet')
+      return
+    }
+    const context = getOrCreateScene(el, setWidth(width.value), setHeight(height.value))
+    sceneModel.value = context.scene
+    isSceneCreated.value = 1
   }
-  activeIndex.value = activeIndex.value === index ? -1 : index;
-};
+  activeIndex.value = activeIndex.value === index ? -1 : index
+}
+
 
 const onSelectModel = async () => {
   loadingStore.isModelLoading = true
