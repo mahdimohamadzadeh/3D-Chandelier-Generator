@@ -6,10 +6,10 @@
           <table class="table">
             <thead>
               <tr>
-                <th>شماره سفارش</th>
-                <th>نام محصول</th>
-                <th>قطر محصول</th>
-                <th>قیمت محصول</th>
+                <th>Order ID</th>
+                <th>Product Name</th>
+                <th>Diameter</th>
+                <th>Price</th>
               </tr>
             </thead>
             <tbody v-for="order in totalOrder" :key="order.id">
@@ -17,24 +17,24 @@
                 <th>{{ order.id }}</th>
                 <td>{{ order.title }}</td>
                 <td>{{ order.dimension }}</td>
-                <td>{{ order.price }} تومان</td>
+                <td>{{ order.price }}</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
-    <span v-else>متاسفانه هنوز هیچ محصولی ثبت نکردید!!</span>
+    <span v-else>No products added yet!</span>
     <div class="modal-action text-right">
       <div
         v-if="totalOrder.length > 0"
         class="flex justify-between w-full items-center"
       >
         <span class="font-bold text-sm xl:text-xl"
-          >مجموع خرید شما : {{ totalPrice }} تومان میباشد</span
+          >Total: {{ totalPrice }}</span
         >
         <button @click="$emit('onBuy')" class="btn-success btn text-white">
-          خرید
+          Buy
         </button>
       </div>
     </div>

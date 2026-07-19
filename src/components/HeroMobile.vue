@@ -7,31 +7,26 @@
       />
       <div>
         <h1 class="my-4 text-4xl font-bold">
-          لوسترهای سه بعدی سفارشی : درخشش رؤیای شما در خانه‌تان!
+          Custom 3D Chandeliers — Make your home shine!
         </h1>
         <h2 class="mt-10 text-base">
-          به دنیای درخشان لوسترهای سه بعدی سفارشی خوش آمدید! در اینجا، می‌توانید
-          لوستری منحصر به فرد و متناسب با سلیقه و دکوراسیون خود را طراحی و سفارش
-          دهید.
+          Welcome to the world of custom 3D chandeliers. Design a unique chandelier that matches your taste and decor.
         </h2>
-        <p class="my-6 text-2xl font-bold">مزایای لوسترهای سه بعدی سفارشی :</p>
+        <p class="my-6 text-2xl font-bold">Why choose custom 3D chandeliers:</p>
         <ul class="flex flex-col px-3 text-lg list-disc gap-y-4">
           <li>
-            منحصر به فرد بودن : لوستری خواهید داشت که هیچ کس دیگری مانند آن را
-            ندارد.
+            Unique designs — a chandelier no one else will have.
           </li>
           <li>
-            تناسب کامل با دکوراسیون : لوستر شما با سبک و سیاق دکوراسیون منزل شما
-            هماهنگ خواهد بود.
+            Perfect fit for your decor — matches your home's style.
           </li>
-          <li>تنوع بی‌نظیر : در طرح، رنگ، جنس و ابعاد هیچ محدودیتی ندارید.</li>
+          <li>Unlimited variety — choose any shape, color, material, and size.</li>
           <li>
-            قیمت مناسب : با توجه به نیاز و بودجه شما، بهترین قیمت را به شما
-            ارائه خواهیم داد.
+            Affordable options — tailored to your needs and budget.
           </li>
         </ul>
         <button @click="$emit('onStart')" class="mt-5 btn btn-warning">
-          شروع کنید
+          Get Started
         </button>
       </div>
     </div>

@@ -13,15 +13,15 @@
           :disabled="activeTab === tabs.length - 1"
           class="btn btn-info"
         >
-          بعدی
+          Next
         </button>
-        <span>{{ tabs[activeTab].price }} تومان</span>
+        <span>{{ tabs[activeTab].price }}</span>
         <button
           @click="prevTab"
           :disabled="activeTab === 0"
           class="btn btn-info"
         >
-          قبلی
+          Previous
         </button>
       </div>
     </div>
