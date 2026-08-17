@@ -1,5 +1,9 @@
 export const getDynamicUrl = (glbCode: string): string =>
-  new URL(new URL(import.meta.url).origin + `/src/assets/3D/${glbCode}.glb`).href;
+  `https://cdn.jsdelivr.net/gh/mahdigitassets-afk/chandelier-assets@main/${glbCode}.glb.enc`;
 
-export const getImageUrl = (code: string): string =>
-  new URL(`../assets/image/${code}.png`, import.meta.url).href;
+const imageModules = (import.meta as any).glob('../assets/image/*.png', { eager: true }) as Record<string, { default: string }>;
+
+export const getImageUrl = (code: string): string => {
+  const path = `../assets/image/${code}.png`;
+  return imageModules[path]?.default || '';
+};

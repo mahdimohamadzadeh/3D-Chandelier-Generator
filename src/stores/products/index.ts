@@ -33,8 +33,8 @@ export interface ModelEntry {
 export const useProductStore = defineStore({
   id: "products",
   state: () => ({
-    products: [] as typeof mockProducts,
-    categories: [] as typeof mockCategories,
+    products: mockProducts as typeof mockProducts,
+    categories: mockCategories as typeof mockCategories,
     models: [] as ModelEntry[],
     isModalProduct: false as boolean,
     selectProduct: {} as Product,

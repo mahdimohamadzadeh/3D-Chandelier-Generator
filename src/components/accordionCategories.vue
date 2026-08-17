@@ -14,14 +14,14 @@
           :disabled="isAccordionDisabled(index)"
           class="flex items-center justify-between w-full px-4 py-3 text-left transition-all rounded-xl"
           :class="activeIndex === index
-            ? 'bg-amber-500 text-white shadow-md'
+            ? 'bg-amber-500 text-white font-bold shadow-md shadow-amber-500/20'
             : isAccordionDisabled(index)
-              ? 'bg-zinc-100 text-zinc-400 cursor-not-allowed'
+              ? 'bg-zinc-100 text-zinc-400 cursor-not-allowed border border-zinc-200/50'
               : 'bg-white text-zinc-700 hover:bg-zinc-50 border border-zinc-200'"
         >
           <div class="flex items-center gap-3">
             <span class="flex items-center justify-center text-xs font-bold rounded-full w-7 h-7"
-              :class="activeIndex === index ? 'bg-white text-amber-500' : 'bg-zinc-100 text-zinc-500'">
+              :class="activeIndex === index ? 'bg-white text-amber-600' : 'bg-zinc-100 text-zinc-500'">
               {{ index + 1 }}
             </span>
             <span class="text-sm font-semibold">{{ category.title }}</span>
@@ -38,13 +38,13 @@
           <div v-if="activeIndex === index" class="pl-2 mt-1 ml-2 border-l-2 border-amber-300">
             <ul class="space-y-1">
               <product
-                v-for="product in getProductByCategory(category.id)"
-                :key="product.id"
-                :product="product"
+                v-for="item in store.getProductByCategory(category.id)"
+                :key="item.id"
+                :product="item"
                 @onSelectModel="onSelectModel"
               />
             </ul>
-            <p v-if="getProductByCategory(category.id).length === 0" class="px-3 py-2 text-xs text-zinc-400">
+            <p v-if="store.getProductByCategory(category.id).length === 0" class="px-3 py-2 text-xs text-zinc-400">
               No products available
             </p>
           </div>
@@ -68,6 +68,8 @@ import { useLoader } from "@/composables/useLoader";
 import { SetNumberOfProduct } from "@/helpers/setNumberOfProduct";
 import type { Scene } from "three";
 import { getOrCreateScene } from "@/composables/sceneSingleton";
+import Modal from "@/components/Modal.vue";
+import product from "@/components/product.vue";
 
 const { width, height } = useWindowSize();
 const setWidth = (w: number) => (w > 780 ? w / 1.2 : w);
@@ -80,8 +82,6 @@ const store = useProductStore();
 const modelStore = useModelStore();
 const loadingStore = useLoadingStore();
 const activeIndex = ref(-1);
-const { getProductByCategory } = storeToRefs(store);
-
 
 
 const ARMS_CATEGORY_ID = 168
@@ -102,8 +102,8 @@ const onCategory = (categoryID: number, index: number) => {
   activeIndex.value = activeIndex.value === index ? -1 : index
 }
 
-
 const onSelectModel = async () => {
+  store.setProductModal(false)
   loadingStore.isModelLoading = true
   const selectedProduct = { ...store.$state.selectProduct }
   const categoryID = selectedProduct.categoryID
@@ -156,7 +156,6 @@ const onAddModel = async (
   categoryID: number,
   numberOfProduct: number
 ) => {
-  debugger
   const categoryIndex = getCategoryIndex(categoryID);
   const selectedProduct = store.getProductByID(productID)[0];
   modelStore.$state.modelSelect[categoryIndex].push(selectedProduct as unknown as import("@/stores/models3D").ProductOrder);

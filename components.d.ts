@@ -7,9 +7,8 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    '(Copy)': typeof import('./src/components/product (Copy).vue')['default']
     AccordionCategories: typeof import('./src/components/accordionCategories.vue')['default']
-    DesktopHero: typeof import('./src/components/desktopHero.vue')['default']
+    ChandelierIcon: typeof import('./src/components/ChandelierIcon.vue')['default']
     Hero: typeof import('./src/components/Hero.vue')['default']
     HeroMobile: typeof import('./src/components/HeroMobile.vue')['default']
     Modal: typeof import('./src/components/Modal.vue')['default']
