@@ -26,7 +26,8 @@ export interface GlbFile {
 }
 
 export interface ModelEntry {
-  instance: Object3D | Object3D[];
+  instance: Object3D;
+  sceneInstances?: Object3D[];
   id: GlbFile;
 }
 
@@ -115,12 +116,18 @@ export const useProductStore = defineStore({
       const product = this.getProductByID(productID)[0];
       return { url: getDynamicUrl(product.glbUrl), id: product.id };
     },
-    addModel(instance: Object3D | Object3D[], id: GlbFile): void {
+    addModel(instance: Object3D, id: GlbFile): void {
       const index = this.models.findIndex((obj) => obj.id.id === id.id);
       if (index !== -1) {
-        this.models[index] = { instance, id };
+        this.models[index].instance = instance;
       } else {
-        this.models.push({ instance, id });
+        this.models.push({ instance, sceneInstances: [], id });
+      }
+    },
+    setSceneInstances(id: number, sceneInstances: Object3D[]): void {
+      const model = this.models.find((obj) => obj.id.id === id);
+      if (model) {
+        model.sceneInstances = sceneInstances;
       }
     },
     setProductModal(modalValue: boolean, productSelected?: Product): void {

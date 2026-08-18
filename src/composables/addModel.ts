@@ -18,21 +18,26 @@ export const useAddModel = (
 
   const categoryID = store.getCategoryIDByProductID(result.id.id);
 
-  if (numberOfProducts <= 1) {
-    (result.instance as import("three").Object3D).position.set(positionX, positionY, positionZ);
-    unref(scene).add(result.instance as import("three").Object3D);
-    store.addModel(result.instance as import("three").Object3D, result.id);
+  const baseObject = Array.isArray(result.instance) ? result.instance[0] : result.instance;
+
+  if (!baseObject || typeof (baseObject as any).clone !== "function") {
+    console.error("Invalid model instance for id:", id);
     return;
   }
 
   const copies = Array.from({ length: numberOfProducts }, () =>
-    (result.instance as import("three").Object3D).clone()
+    (baseObject as import("three").Object3D).clone()
   );
 
   copies[0].position.set(positionX, positionY, positionZ);
 
-  setPositionForNumberOfModel(copies, categoryID, result.id.id, numberOfProducts, positionX, positionY, positionZ);
+  if (numberOfProducts > 1) {
+    setPositionForNumberOfModel(copies, categoryID, result.id.id, numberOfProducts, positionX, positionY, positionZ);
+  }
 
-  copies.forEach((copy) => unref(scene).add(copy));
-  store.addModel(copies, result.id);
+  const targetScene = unref(scene);
+  if (targetScene) {
+    copies.forEach((copy) => targetScene.add(copy));
+  }
+  store.setSceneInstances(result.id.id, copies);
 };
