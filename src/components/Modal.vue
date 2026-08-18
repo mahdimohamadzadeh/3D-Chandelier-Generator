@@ -5,7 +5,7 @@
       <div class="absolute inset-0 bg-black/60 backdrop-blur-xs" @click="store.setProductModal(false)" />
 
       <!-- card -->
-      <div class="relative z-10 w-full max-w-2xl overflow-hidden bg-white border border-zinc-200 shadow-2xl rounded-3xl text-zinc-900">
+      <div class="relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white border border-zinc-200 shadow-2xl rounded-3xl text-zinc-900">
         <!-- close -->
         <button
           @click="store.setProductModal(false)"

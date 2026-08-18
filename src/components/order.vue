@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-box max-w-4xl bg-white rounded-3xl p-6 shadow-2xl border border-zinc-200 text-zinc-900">
+  <div class="modal-box max-w-4xl max-h-[90vh] overflow-y-auto bg-white rounded-3xl p-4 sm:p-6 shadow-2xl border border-zinc-200 text-zinc-900">
     <h3 class="font-extrabold text-xl text-zinc-900 mb-4 border-b border-zinc-100 pb-3 flex items-center gap-2">
       <span class="text-amber-500">✦</span> Custom 3D Assembly Breakdown
     </h3>

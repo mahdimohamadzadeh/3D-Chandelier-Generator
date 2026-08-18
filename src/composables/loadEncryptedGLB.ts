@@ -1,8 +1,8 @@
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js'
 
-const KEY_HEX = '603d822f63464512429a5678bd1a3c0b9f3e30c207f5bba112e06b2fb66f453b'
-const IV_HEX = '57bed216956edd459dd5189968bcbf54'
+const KEY_HEX = (import.meta.env.VITE_GLB_KEY as string) || '603d822f63464512429a5678bd1a3c0b9f3e30c207f5bba112e06b2fb66f453b'
+const IV_HEX = (import.meta.env.VITE_GLB_IV as string) || '57bed216956edd459dd5189968bcbf54'
 
 function hexToBytes(hex: string): Uint8Array {
   const bytes = new Uint8Array(hex.length / 2)
