@@ -7,27 +7,21 @@
 </template>
 
 <script setup>
-import luster1 from "../assets/3D/500.glb?url";
-import luster2 from "../assets/3D/510.glb?url";
-
+import { getDynamicUrl } from "@/helpers/imageUrl";
+import { loadEncryptedGLB } from "@/composables/loadEncryptedGLB";
 import {
   AmbientLight,
   DirectionalLight,
-  HemisphereLight,
   Object3D,
   PerspectiveCamera,
   Scene,
   WebGLRenderer,
 } from "three";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { ref, onMounted, watch, computed } from "vue";
+import { ref, onMounted } from "vue";
 import { useWindowSize } from "@vueuse/core";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
 
 let scene = new Scene();
-
-let dracoLoader = new DRACOLoader();
 
 const object = new Object3D();
 
@@ -40,12 +34,7 @@ camera.position.z = 30;
 
 let renderer = new WebGLRenderer({ antialias: true, alpha: true });
 
-let loader = new GLTFLoader();
-
 let controls;
-
-// const light = new AmbientLight(0x404040, 10000);
-// scene.add(light);
 
 const ambientLight = new AmbientLight(0xffffff, 0.5); // Ambient light
 scene.add(ambientLight);
@@ -58,49 +47,33 @@ const downLight = new DirectionalLight(0xffffff, 110);
 downLight.position.set(0, -1, 0);
 scene.add(downLight);
 
-// const rightLight = new DirectionalLight(0xffffff, 50);
-// downLight.position.set(1, 0, 0);
-// scene.add(rightLight);
-
-// const leftLight = new DirectionalLight(0xffffff, 50);
-// downLight.position.set(-1, 0, 0);
-// scene.add(leftLight);
-
 const modelURL = ref(null);
 
 const first = () => {
   modelURL.value = null;
-  modelURL.value = luster1;
+  modelURL.value = getDynamicUrl("500");
   init();
   console.log(modelURL.value);
 };
 const second = () => {
   modelURL.value = null;
-  modelURL.value = luster2;
+  modelURL.value = getDynamicUrl("510");
   init();
   console.log(modelURL.value);
 };
 const init = () => {
-  dracoLoader.setDecoderConfig({ type: "js" });
-  dracoLoader.setDecoderPath("https://www.gstatic.com/draco/v1/decoders/");
-  loader.setDRACOLoader(dracoLoader);
-
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(width.value, height.value / 2);
 
   if (modelURL.value !== null) {
-    loader.load(modelURL.value, (glb) => {
+    loadEncryptedGLB(modelURL.value, (glb) => {
       const model = glb.scene || glb.scenes[0];
       console.log(model);
       object.add(model);
 
       scene.add(object);
 
-      // const positionX = 50 / 100;
-      // const positionY = 0 / 100;
-      // const positionZ = 0 / 100;
-
-      model.position.set(Math.random() * 2, positionY, positionZ);
+      model.position.set(Math.random() * 2, 0, 0);
       animate();
     });
   }
@@ -109,10 +82,10 @@ const init = () => {
   controls.enableDamping = true;
   controls.enablePan = false;
   controls.enableZoom = true;
-  // controls.autoRotate = true;
-  // controls.autoRotateSpeed = 5;
 
-  container.value.appendChild(renderer.domElement);
+  if (container.value && !container.value.contains(renderer.domElement)) {
+    container.value.appendChild(renderer.domElement);
+  }
 };
 
 const animate = () => {
