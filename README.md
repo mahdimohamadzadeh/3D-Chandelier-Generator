@@ -33,7 +33,6 @@ Whether building a multi-tiered crystal chandelier from scratch or browsing hand
 - 📐 **Instructional Guidance Modal**: Integrated visual step-by-step onboarding guide for first-time configurator users.
 - 🛍️ **Heritage Atelier Catalog & Cart**: Browse curated vintage fixtures (French Empire, Murano Glass, Bohemian Crystal) with an integrated shopping cart and order breakdown.
 - ⚡ **Optimized Loading System**: Custom streaming progress overlay for downloading GLB 3D assets with percentage indicators.
-- ✒️ **Global Poppins Typography**: Modern aesthetic built with Poppins Google Font and Tailwind CSS.
 
 ---
 
@@ -135,15 +134,3 @@ luster-3D-en/
    - **Zoom**: Scroll wheel or pinch.
    - **Pan**: Right-click and drag.
 6. **Checkout**: Click **View Assembly Breakdown** to review itemized pricing and complete your order.
-
----
-
-## 📜 License
-
-Distributed under the **MIT License**. See `LICENSE` for more information.
-
----
-
-<div align="center">
-  <p>Crafted with ♥ by the Luster 3D Atelier Team</p>
-</div>
