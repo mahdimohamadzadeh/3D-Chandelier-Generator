@@ -80,8 +80,8 @@
       <!-- 3D canvas + order bar -->
       <div v-else class="flex flex-col items-center w-full max-w-4xl gap-4 sm:gap-6 py-4 sm:py-6 relative">
         
-        <!-- Floating Mobile 3D Menu Button -->
-        <div class="w-full flex justify-between items-center px-1">
+        <!-- Floating Mobile 3D Menu Button & Instruction Button -->
+        <div class="w-full flex justify-between items-center px-1 gap-2">
           <button
             @click="loadingStore.isMenu = !loadingStore.isMenu"
             class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-extrabold bg-white text-zinc-900 border border-zinc-200 shadow-md rounded-xl hover:bg-amber-50 hover:text-amber-600 transition-all active:scale-95"
@@ -89,7 +89,18 @@
             <span class="text-amber-500 font-black">✦</span>
             <span>{{ loadingStore.isMenu ? 'Hide Parts Menu' : 'Select 3D Parts' }}</span>
           </button>
-          <span class="text-[10px] font-mono text-zinc-400 hidden sm:inline">Drag to rotate • Scroll to zoom</span>
+          
+          <div class="flex items-center gap-3">
+            <span class="text-[10px] font-mono text-zinc-400 hidden sm:inline">Drag to rotate • Scroll to zoom</span>
+            <button
+              @click="showInstructionModal = true"
+              class="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-zinc-700 hover:text-amber-600 bg-white border border-zinc-200 shadow-xs rounded-xl transition-all hover:bg-amber-50 active:scale-95"
+              title="View 3D Guide"
+            >
+              <span>❓</span>
+              <span>Guide</span>
+            </button>
+          </div>
         </div>
 
         <div
@@ -121,6 +132,12 @@
       <order :totalOrder="totalOrder" @on-buy="onBuy" />
       <form method="dialog" class="modal-backdrop"><button>close</button></form>
     </dialog>
+
+    <!-- 3D instruction modal -->
+    <instruction-modal
+      v-model="showInstructionModal"
+      @start="startBuilder"
+    />
   </div>
 </template>
 
@@ -132,6 +149,7 @@ import { useRouter } from "vue-router";
 import { provide, ref, computed } from "vue";
 import order from "@/components/order.vue";
 import accordionCategories from "@/components/accordionCategories.vue";
+import InstructionModal from "@/components/InstructionModal.vue";
 
 const router = useRouter();
 const modelStore = useModelStore();
@@ -143,6 +161,7 @@ const totalOrder = computed(() => modelStore.$state.totalOrder);
 
 const isHeroDesktop = ref(true);
 const isHeroMobile = ref(true);
+const showInstructionModal = ref(false);
 
 const features = [
   { label: "Bespoke Geometry", desc: "Crafted to match your ceiling space" },
@@ -152,6 +171,14 @@ const features = [
 ];
 
 const onStart = () => {
+  if (localStorage.getItem("luster_hide_3d_instruction") === "true") {
+    startBuilder();
+  } else {
+    showInstructionModal.value = true;
+  }
+};
+
+const startBuilder = () => {
   isHeroDesktop.value = false;
   isHeroMobile.value = false;
   loadingStore.isMenu = true;

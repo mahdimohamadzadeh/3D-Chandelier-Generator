@@ -11,6 +11,7 @@ declare module 'vue' {
     ChandelierIcon: typeof import('./src/components/ChandelierIcon.vue')['default']
     Hero: typeof import('./src/components/Hero.vue')['default']
     HeroMobile: typeof import('./src/components/HeroMobile.vue')['default']
+    InstructionModal: typeof import('./src/components/InstructionModal.vue')['default']
     Modal: typeof import('./src/components/Modal.vue')['default']
     NavBar: typeof import('./src/components/NavBar.vue')['default']
     Order: typeof import('./src/components/order.vue')['default']
